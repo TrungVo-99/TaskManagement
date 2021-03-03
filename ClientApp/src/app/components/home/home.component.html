@@ -1,0 +1,43 @@
+
+<div class="input-group mb-3" style="margin-top:50px">
+  <div class="input-group mb-3">
+    <input (keydown.enter)="createTask($event.target.value)" [(ngModel)]="taskName" type="text" class="form-control" placeholder="Enter Something....." aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" colspan="2">Task Name</th>
+      <th scope="col">Create Date</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of taskList">
+      <td *ngIf="!task.isEdit" colspan="2">{{task.taskName}}</td>
+      <td *ngIf="task.isEdit" colspan="2" >
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" [(ngModel)]="task.taskNameNew" value="{{task.taskName}}" placeholder="{{task.taskName}}">
+        </div>
+      </td>
+      <td>{{task.createdAt | date}}</td>
+      <td>
+        <div *ngIf="!task.isEdit">
+          <button type="button" class="btn btn-danger" (click)="deleteTask(task)" style="margin-right:10px">Delete</button>
+          <button type="button" class="btn btn-info" (click)="task.isEdit = true">Edit</button>
+        </div>
+
+        <div *ngIf="task.isEdit">
+          <button type="button" class="btn btn-danger" (click)="task.isEdit = false" style="margin-right:10px">Cacel</button>
+          <button class="btn btn-success" (click)="editTask(task)" type="button">Save</button>
+
+        </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
